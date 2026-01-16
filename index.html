@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>❤️</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/3/turn.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Satisfy&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #1a000f;
+            background-image: 
+                radial-gradient(circle at 15% 15%, #3a090e 0%, transparent 65%),
+                radial-gradient(circle at 85% 75%, #673147 0%, transparent 65%),
+                radial-gradient(circle at 50% 50%, #4a1c26 0%, transparent 75%);
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            font-family: 'Segoe UI', sans-serif;
+            color: #e8c3c8;
+            padding: 15px;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        html {
+            height: -webkit-fill-available;
+        }
+        h1.glow-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(3rem, 12vw, 6.2rem);
+            margin: clamp(10px, 3vh, 25px) 0 clamp(15px, 4vh, 35px);
+            background: linear-gradient(90deg, #dac1c4, #b13a58, #d84f5f, #7e172b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 35px #746768, 0 0 70px #3b0c16, 0 0 100px #30050f;
+            animation: pulseConchewino 5s infinite alternate;
+            text-align: center;
+            line-height: 1.1;
+            letter-spacing: 1px;
+            width: 100%;
+            max-width: 1000px;
+                padding-top: 15px;
+line-height: 1.2;
+        }
+        
+        @keyframes pulseConchewino {
+            from { text-shadow: 0 0 25px #722f37, 0 0 55px #4a1c26; }
+            to   { text-shadow: 0 0 70px #9c2f4a, 0 0 130px #30050f; }
+        }
+        #flipbook-container {
+            perspective: 3000px;
+            margin: clamp(10px, 3vh, 25px) 0;
+            width: 100%;
+            max-width: min(95vw, 920px);
+            height: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        #flipbook {
+            width: 100% !important;
+            height: auto !important;
+            background: transparent;
+            aspect-ratio: 920/580;
+            max-width: 920px;
+            max-height: 580px;
+
+            border-radius: 3px;
+        }
+        @supports not (aspect-ratio: 920/580) {
+            #flipbook {
+                position: relative;
+                padding-top: 63.0435%;
+            }
+            
+            #flipbook > .page {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+        }
+        .page {
+            background: linear-gradient(145deg, #2f0d17 0%, #40121f 45%, #541828 100%);
+            box-shadow: inset 0 0 90px #000000, 0 0 35px #722f37;
+            border: 2px solid rgba(114, 47, 55, 0.4);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .media-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        
+        .media-container img, 
+        .media-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            filter: brightness(0.8) contrast(1.15) sepia(0.15);
+            display: block;
+        }
+        .turn-page-active {
+            box-shadow: 0 0 110px #722f37, 0 0 200px #4a1c26, inset 0 0 160px rgba(114,47,55,0.65) !important;
+            border: 3px solid #722f37;
+            filter: brightness(1.1) contrast(1.2) saturate(1.3);
+            transition: all 1.3s cubic-bezier(0.22, 0.81, 0.01, 0.99);
+            z-index: 10 !important;
+        }
+        .heart-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: clamp(60px, 15vw, 140px);
+            opacity: 0;
+            color: #722f37;
+            pointer-events: none;
+            animation: floatHeart 20s infinite linear;
+            z-index: 5;
+            text-shadow: 0 0 30px rgba(114, 47, 55, 0.5);
+        }
+        
+        @keyframes floatHeart {
+            0%   { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+            50%  { transform: translate(-50%, -65%) rotate(12deg) scale(1.2); }
+            100% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+        }
+        .controls {
+            margin-top: clamp(20px, 6vh, 50px);
+            display: flex;
+            gap: clamp(20px, 8vw, 70px);
+            z-index: 30;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            max-width: 800px;
+            padding: 0 15px;
+        }
+        
+        button {
+            background: linear-gradient(45deg, #541828, #722f37, #9c2f4a);
+            background-size: 400%;
+            color: #ffebee;
+            border: none;
+            padding: clamp(12px, 2.5vw, 18px) clamp(30px, 6vw, 55px);
+            border-radius: 60px;
+            font-size: clamp(17px, 4vw, 21px);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.5s;
+            box-shadow: 0 14px 45px rgba(114, 47, 55, 0.75);
+            position: relative;
+            overflow: hidden;
+            min-width: 130px;
+            text-align: center;
+            font-family: 'Segoe UI', sans-serif;
+            letter-spacing: 1px;
+        }
+        
+        button::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -100%;
+            width: 60%;
+            height: 200%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
+            transform: skewX(-20deg);
+            transition: 0.8s;
+        }
+        
+        button:hover::before {
+            left: 130%;
+        }
+        
+        button:hover {
+            transform: translateY(-10px) scale(1.18);
+            box-shadow: 0 28px 70px rgba(114, 47, 55, 0.95);
+        }
+        
+        /* AJUSTES PARA PANTALLAS MUY PEQUEÑAS (320px) */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+                justify-content: flex-start;
+                padding-top: 20px;
+            }
+            
+            h1.glow-title {
+                font-size: clamp(2.5rem, 10vw, 3.5rem);
+                margin: 5px 0 15px;
+            }
+            
+            #flipbook-container {
+                width: 98vw;
+                margin: 5px 0;
+            }
+            
+            .controls {
+                margin-top: 25px;
+                gap: 25px;
+            }
+            
+            button {
+                min-width: 110px;
+                padding: 10px 25px;
+                font-size: 16px;
+            }
+            
+            .heart-overlay {
+                font-size: 50px;
+            }
+        }
+        
+        /* ORIENTACIÓN VERTICAL (MÓVILES) */
+        @media (max-height: 700px) and (orientation: portrait) {
+            h1.glow-title {
+                font-size: clamp(2.2rem, 8vw, 3rem);
+                margin: 5px 0 10px;
+            }
+            
+            #flipbook {
+                max-height: 50vh;
+            }
+            
+            .controls {
+                margin-top: 20px;
+                gap: 20px;
+            }
+        }
+        
+        /* ORIENTACIÓN HORIZONTAL (LANDSCAPE) */
+        @media (max-height: 600px) and (orientation: landscape) {
+            body {
+                padding: 10px;
+                justify-content: center;
+            }
+            
+            h1.glow-title {
+                font-size: clamp(1.8rem, 6vw, 2.5rem);
+                margin: 5px 0;
+            }
+            
+            #flipbook {
+                max-height: 60vh;
+            }
+            
+            .controls {
+                margin-top: 15px;
+                gap: 20px;
+            }
+            
+            button {
+                padding: 8px 20px;
+                min-width: 100px;
+            }
+        }
+        
+        /* DISPOSITIVOS TÁCTILES */
+        @media (hover: none) and (pointer: coarse) {
+            button:hover {
+                transform: none;
+            }
+            
+            button:active {
+                transform: translateY(-5px) scale(1.05);
+            }
+        }
+        
+        /* ANIMACIÓN DE CARGA */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1a000f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+        
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(114, 47, 55, 0.3);
+            border-top: 4px solid #722f37;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* MENSAJE DE ERROR PARA MEDIA NO ENCONTRADA */
+        .error-message {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            padding: 30px;
+            text-align: center;
+            color: #722f37;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        /* PREVENIR SELECTION */
+        .page, .media-container, img, video {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        /* SCROLLBAR PERSONALIZADA */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(114, 47, 55, 0.1);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #722f37;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Overlay de carga -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <h1 class="glow-title">My Only Love</h1>
+
+    <div id="flipbook-container">
+        <div id="flipbook"></div>
+    </div>
+
+    <div class="controls">
+        <button id="prevBtn">‹</button>
+        <button id="nextBtn">›</button>
+    </div>
+
+    <audio id="pageSound" preload="auto"></audio>
+
+    <script>
+        $(document).ready(function() {
+
+            setTimeout(() => {
+                $('#loadingOverlay').fadeOut(500);
+            }, 1000);
+            
+            const $flipbook = $("#flipbook");
+            const $audio = $("#pageSound")[0];
+            
+            const totalPages = 22;  
+            let selectedPage = 1;
+            let isResizing = false;
+            let originalWidth = 920;
+            let originalHeight = 580;
+            let aspectRatio = originalHeight / originalWidth;
+
+            const videoExtensions = ['.mp4', '.webm', '.mov'];
+            const imageExtensions = ['.png', '.jpg', '.jpeg', '.webp'];
+
+            function updateHighlightAndSound(pageNum) {
+                $(".turn-page-active").removeClass("turn-page-active");
+
+                const $active = $(`.page[data-page="${pageNum}"]`);
+                $active.addClass("turn-page-active");
+
+                const soundSrc = $active.data("sound");
+                if (soundSrc) {
+                    $audio.src = soundSrc;
+                    $audio.currentTime = 0;
+                    $audio.volume = 0.38;
+                    $audio.play().catch(() => {
+                        console.log("Sonido no disponible");
+                    });
+                }
+
+                $("video").each(function() { 
+                    this.pause(); 
+                    this.currentTime = 0; 
+                });
+
+                const $video = $active.find("video");
+                if ($video.length) {
+                    $video[0].currentTime = 0;
+                    $video[0].play().catch((e) => {
+                        console.log("Video no se pudo reproducir automáticamente");
+                    });
+                }
+            }
+
+            function createPage(i) {
+                const $page = $(`<div class="page" data-page="${i}" data-sound="sonidos/${i}.mp3"></div>`);
+                const $media = $('<div class="media-container"></div>');
+                const $heart = $('<div class="heart-overlay">♥</div>');
+
+                let mediaAdded = false;
+
+                for (let ext of videoExtensions) {
+                    const url = `fotos/${i}${ext}`;
+                    const $test = $('<video>', {
+                        src: url,
+                        muted: true,
+                        loop: true,
+                        playsinline: true,
+                        preload: 'metadata'
+                    });
+
+                    $test.on('loadedmetadata', function() {
+                        if (!mediaAdded) {
+                            $media.empty().append(this);
+                            mediaAdded = true;
+                            $test[0].load();
+                        }
+                    }).on('error', function() {
+    
+                    });
+                }
+
+                if (!mediaAdded) {
+                    for (let ext of imageExtensions) {
+                        const url = `fotos/${i}${ext}`;
+                        const $img = $('<img>', {
+                            src: url,
+                            alt: `Página ${i}`,
+                            loading: 'lazy'
+                        });
+
+                        $img.on('load', function() {
+                            if (!mediaAdded) {
+                                $media.empty().append(this);
+                                mediaAdded = true;
+                            }
+                        }).on('error', function() {
+                            this.onerror = null;
+                        });
+                    }
+                }
+
+
+                setTimeout(() => {
+                    if (!mediaAdded) {
+                        $media.html(`<div class="error-message">
+                            <div style="font-size: 40px; margin-bottom: 10px;">😿</div>
+                            <div>Página ${i}</div>
+                        </div>`);
+                    }
+                }, 2000);
+
+                $page.append($media).append($heart);
+                $flipbook.append($page);
+            }
+
+
+            for (let i = 1; i <= totalPages; i++) {
+                createPage(i);
+            }
+
+            $flipbook.turn({
+                width: originalWidth,
+                height: originalHeight,
+                autoCenter: true,
+                duration: 1800,
+                gradients: true,
+                acceleration: true,
+                display: 'double',
+                turnCorners: 'bl,br,tl,tr',
+                when: {
+                    turning: function(e, page) {
+                        $("video").each(function() { 
+                            if (!$(this).closest('.page').hasClass('turn-page-active')) {
+                                this.pause(); 
+                            }
+                        });
+                    },
+                    turned: function(e, page) {
+    
+                        const view = $flipbook.turn("view");
+                        selectedPage = view[0] || view[1] || 1;
+                        updateHighlightAndSound(selectedPage);
+                    }
+                }
+            });
+
+            function resizeFlipbook() {
+                if (isResizing) return;
+                
+                isResizing = true;
+                
+                setTimeout(() => {
+                    const container = $('#flipbook-container');
+                    const containerWidth = container.width();
+                    const windowHeight = window.innerHeight;
+                    
+                    let newWidth = Math.min(containerWidth, originalWidth);
+                    let newHeight = newWidth * aspectRatio;
+                    
+                    const maxHeight = windowHeight * 0.75;
+                    if (newHeight > maxHeight) {
+                        newHeight = maxHeight;
+                        newWidth = newHeight / aspectRatio;
+                    }
+                    
+                    newWidth = Math.max(newWidth, 300);
+                    newHeight = Math.max(newHeight, 300 * aspectRatio);
+                    
+                    if ($flipbook.turn("display") === "double") {
+                        $flipbook.turn("size", newWidth, newHeight);
+                    }
+                    
+                    const titleMargin = Math.min(30, newHeight * 0.05);
+                    $('.glow-title').css('margin-bottom', titleMargin + 'px');
+
+                    const controlsMargin = Math.min(50, newHeight * 0.08);
+                    $('.controls').css('margin-top', controlsMargin + 'px');
+                    
+                    isResizing = false;
+                }, 100);
+            }
+
+            // Navegación
+            function navigate(direction) {
+                if (direction === 'next') {
+                    selectedPage = (selectedPage % totalPages) + 1;
+                } else {
+                    selectedPage = selectedPage === 1 ? totalPages : selectedPage - 1;
+                }
+
+                const view = $flipbook.turn("view");
+                
+                if (!view.includes(selectedPage)) {
+                    let spreadStart = (selectedPage === 1) ? 1 : 
+                                     (selectedPage % 2 === 0) ? selectedPage : selectedPage - 1;
+                    $flipbook.turn("page", spreadStart);
+                } else {
+                    updateHighlightAndSound(selectedPage);
+                }
+            }
+            $("#nextBtn").click(() => navigate('next'));
+            $("#prevBtn").click(() => navigate('prev'));
+
+            $(document).keydown(e => {
+                if (e.key === 'ArrowLeft' || e.keyCode === 37) navigate('prev');
+                if (e.key === 'ArrowRight' || e.keyCode === 39) navigate('next');
+            });
+            $(window).on('load resize orientationchange', resizeFlipbook);
+            updateHighlightAndSound(1);
+            setTimeout(resizeFlipbook, 300);
+            setTimeout(() => {
+                selectedPage = 2;
+                $flipbook.turn("page", 2);
+            }, 2500);
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            document.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, false);
+            
+            document.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, false);
+            
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                const diff = touchStartX - touchEndX;
+                
+                if (Math.abs(diff) > swipeThreshold) {
+                    if (diff > 0) {
+                        navigate('next');
+                    } else {
+                        navigate('prev');
+                    }
+                }
+            }
+            document.addEventListener('gesturestart', function(e) {
+                e.preventDefault();
+            });
+        });
+    </script>
+</body>
+</html>
