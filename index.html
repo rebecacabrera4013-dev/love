@@ -51,8 +51,8 @@
             letter-spacing: 1px;
             width: 100%;
             max-width: 1000px;
-                padding-top: 15px;
-line-height: 1.2;
+            padding-top: 15px;
+            line-height: 1.2;
         }
         
         @keyframes pulseConchewino {
@@ -77,7 +77,6 @@ line-height: 1.2;
             aspect-ratio: 920/580;
             max-width: 920px;
             max-height: 580px;
-
             border-radius: 3px;
         }
         @supports not (aspect-ratio: 920/580) {
@@ -85,7 +84,6 @@ line-height: 1.2;
                 position: relative;
                 padding-top: 63.0435%;
             }
-            
             #flipbook > .page {
                 position: absolute;
                 top: 0;
@@ -199,89 +197,31 @@ line-height: 1.2;
         }
         
         @media (max-width: 480px) {
-            body {
-                padding: 10px;
-                justify-content: flex-start;
-                padding-top: 20px;
-            }
-            
-            h1.glow-title {
-                font-size: clamp(2.5rem, 10vw, 3.5rem);
-                margin: 5px 0 15px;
-            }
-            
-            #flipbook-container {
-                width: 98vw;
-                margin: 5px 0;
-            }
-            
-            .controls {
-                margin-top: 25px;
-                gap: 25px;
-            }
-            
-            button {
-                min-width: 110px;
-                padding: 10px 25px;
-                font-size: 16px;
-            }
-            
-            .heart-overlay {
-                font-size: 50px;
-            }
+            body { padding: 10px; justify-content: flex-start; padding-top: 20px; }
+            h1.glow-title { font-size: clamp(2.5rem, 10vw, 3.5rem); margin: 5px 0 15px; }
+            #flipbook-container { width: 98vw; margin: 5px 0; }
+            .controls { margin-top: 25px; gap: 25px; }
+            button { min-width: 110px; padding: 10px 25px; font-size: 16px; }
+            .heart-overlay { font-size: 50px; }
         }
         
         @media (max-height: 700px) and (orientation: portrait) {
-            h1.glow-title {
-                font-size: clamp(2.2rem, 8vw, 3rem);
-                margin: 5px 0 10px;
-            }
-            
-            #flipbook {
-                max-height: 50vh;
-            }
-            
-            .controls {
-                margin-top: 20px;
-                gap: 20px;
-            }
+            h1.glow-title { font-size: clamp(2.2rem, 8vw, 3rem); margin: 5px 0 10px; }
+            #flipbook { max-height: 50vh; }
+            .controls { margin-top: 20px; gap: 20px; }
         }
 
         @media (max-height: 600px) and (orientation: landscape) {
-            body {
-                padding: 10px;
-                justify-content: center;
-            }
-            
-            h1.glow-title {
-                font-size: clamp(1.8rem, 6vw, 2.5rem);
-                margin: 5px 0;
-            }
-            
-            #flipbook {
-                max-height: 60vh;
-            }
-            
-            .controls {
-                margin-top: 15px;
-                gap: 20px;
-            }
-            
-            button {
-                padding: 8px 20px;
-                min-width: 100px;
-            }
+            body { padding: 10px; justify-content: center; }
+            h1.glow-title { font-size: clamp(1.8rem, 6vw, 2.5rem); margin: 5px 0; }
+            #flipbook { max-height: 60vh; }
+            .controls { margin-top: 15px; gap: 20px; }
+            button { padding: 8px 20px; min-width: 100px; }
         }
         
-    
         @media (hover: none) and (pointer: coarse) {
-            button:hover {
-                transform: none;
-            }
-            
-            button:active {
-                transform: translateY(-5px) scale(1.05);
-            }
+            button:hover { transform: none; }
+            button:active { transform: translateY(-5px) scale(1.05); }
         }
 
         .loading-overlay {
@@ -311,7 +251,6 @@ line-height: 1.2;
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        
 
         .error-message {
             display: flex;
@@ -326,7 +265,6 @@ line-height: 1.2;
             font-weight: bold;
         }
         
-    
         .page, .media-container, img, video {
             -webkit-user-select: none;
             -moz-user-select: none;
@@ -334,19 +272,9 @@ line-height: 1.2;
             user-select: none;
         }
         
-    
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: rgba(114, 47, 55, 0.1);
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: #722f37;
-            border-radius: 4px;
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(114, 47, 55, 0.1); }
+        ::-webkit-scrollbar-thumb { background: #722f37; border-radius: 4px; }
     </style>
 </head>
 <body>
@@ -385,8 +313,9 @@ line-height: 1.2;
             let originalHeight = 580;
             let aspectRatio = originalHeight / originalWidth;
 
-            const videoExtensions = ['.mp4', '.webm', '.mov'];
-            const imageExtensions = ['.png', '.jpg', '.jpeg', '.webp', '.gif'];
+            // Arrays actualizados con mayúsculas también
+            const videoExtensions = ['.mp4', '.MP4', '.webm', '.WEBM', '.mov', '.MOV'];
+            const imageExtensions = ['.png', '.PNG', '.jpg', '.JPG', '.jpeg', '.JPEG', '.webp', '.WEBP', '.gif', '.GIF'];
 
             function updateHighlightAndSound(pageNum) {
                 $(".turn-page-active").removeClass("turn-page-active");
@@ -399,9 +328,7 @@ line-height: 1.2;
                     $audio.src = soundSrc;
                     $audio.currentTime = 0;
                     $audio.volume = 0.38;
-                    $audio.play().catch(() => {
-                        console.log("Sonido no disponible");
-                    });
+                    $audio.play().catch(() => {});
                 }
 
                 $("video").each(function() { 
@@ -412,10 +339,65 @@ line-height: 1.2;
                 const $video = $active.find("video");
                 if ($video.length) {
                     $video[0].currentTime = 0;
-                    $video[0].play().catch((e) => {
-                        console.log("Video no se pudo reproducir automáticamente");
-                    });
+                    $video[0].play().catch(() => {});
                 }
+            }
+
+            function tryLoadMedia($media, baseName, extensions, isVideo) {
+                let attempts = 0;
+                const maxAttempts = extensions.length * 2; // minúscula + mayúscula
+
+                function tryNext() {
+                    if (attempts >= maxAttempts) {
+                        $media.html(`<div class="error-message">
+                            <div style="font-size: 40px; margin-bottom: 10px;">😿</div>
+                            <div>Página ${baseName} no encontrada</div>
+                        </div>`);
+                        return;
+                    }
+
+                    const extIndex = Math.floor(attempts / 2);
+                    const isUpper = attempts % 2 === 1;
+                    const ext = isUpper ? extensions[extIndex].toUpperCase() : extensions[extIndex];
+                    const url = `fotos/${baseName}${ext}`;
+
+                    if (isVideo) {
+                        const $video = $('<video>', {
+                            src: url,
+                            muted: true,
+                            loop: true,
+                            playsinline: true,
+                            preload: 'metadata'
+                        });
+
+                        $video.on('loadedmetadata', function() {
+                            $media.empty().append(this);
+                            this.load();
+                        }).on('error', () => {
+                            attempts++;
+                            tryNext();
+                        });
+
+                        $media.append($video); // Intentamos cargar
+                    } else {
+                        const $img = $('<img>', {
+                            src: url,
+                            alt: `Página ${baseName}`,
+                            loading: 'lazy'
+                        });
+
+                        $img.on('load', function() {
+                            $media.empty().append(this);
+                        }).on('error', () => {
+                            attempts++;
+                            tryNext();
+                        });
+
+                        $media.append($img);
+                    }
+                }
+
+                tryNext();
             }
 
             function createPage(i) {
@@ -423,63 +405,20 @@ line-height: 1.2;
                 const $media = $('<div class="media-container"></div>');
                 const $heart = $('<div class="heart-overlay">♥</div>');
 
-                let mediaAdded = false;
+                // Primero intentamos como video
+                tryLoadMedia($media, i, videoExtensions, true);
 
-                for (let ext of videoExtensions) {
-                    const url = `fotos/${i}${ext}`;
-                    const $test = $('<video>', {
-                        src: url,
-                        muted: true,
-                        loop: true,
-                        playsinline: true,
-                        preload: 'metadata'
-                    });
-
-                    $test.on('loadedmetadata', function() {
-                        if (!mediaAdded) {
-                            $media.empty().append(this);
-                            mediaAdded = true;
-                            $test[0].load();
-                        }
-                    }).on('error', function() {
-    
-                    });
-                }
-
-                if (!mediaAdded) {
-                    for (let ext of imageExtensions) {
-                        const url = `fotos/${i}${ext}`;
-                        const $img = $('<img>', {
-                            src: url,
-                            alt: `Página ${i}`,
-                            loading: 'lazy'
-                        });
-
-                        $img.on('load', function() {
-                            if (!mediaAdded) {
-                                $media.empty().append(this);
-                                mediaAdded = true;
-                            }
-                        }).on('error', function() {
-                            this.onerror = null;
-                        });
-                    }
-                }
-
-
+                // Si después de un tiempo no cargó video, probamos imagen
                 setTimeout(() => {
-                    if (!mediaAdded) {
-                        $media.html(`<div class="error-message">
-                            <div style="font-size: 40px; margin-bottom: 10px;">😿</div>
-                            <div>Página ${i}</div>
-                        </div>`);
+                    if ($media.find('video').length === 0 || $media.find('video')[0].error) {
+                        $media.empty();
+                        tryLoadMedia($media, i, imageExtensions, false);
                     }
-                }, 2000);
+                }, 1500);
 
                 $page.append($media).append($heart);
                 $flipbook.append($page);
             }
-
 
             for (let i = 1; i <= totalPages; i++) {
                 createPage(i);
@@ -503,7 +442,6 @@ line-height: 1.2;
                         });
                     },
                     turned: function(e, page) {
-    
                         const view = $flipbook.turn("view");
                         selectedPage = view[0] || view[1] || 1;
                         updateHighlightAndSound(selectedPage);
@@ -513,7 +451,6 @@ line-height: 1.2;
 
             function resizeFlipbook() {
                 if (isResizing) return;
-                
                 isResizing = true;
                 
                 setTimeout(() => {
@@ -547,7 +484,6 @@ line-height: 1.2;
                 }, 100);
             }
 
-            // Navegación
             function navigate(direction) {
                 if (direction === 'next') {
                     selectedPage = (selectedPage % totalPages) + 1;
@@ -565,6 +501,7 @@ line-height: 1.2;
                     updateHighlightAndSound(selectedPage);
                 }
             }
+
             $("#nextBtn").click(() => navigate('next'));
             $("#prevBtn").click(() => navigate('prev'));
 
@@ -572,6 +509,7 @@ line-height: 1.2;
                 if (e.key === 'ArrowLeft' || e.keyCode === 37) navigate('prev');
                 if (e.key === 'ArrowRight' || e.keyCode === 39) navigate('next');
             });
+
             $(window).on('load resize orientationchange', resizeFlipbook);
             updateHighlightAndSound(1);
             setTimeout(resizeFlipbook, 300);
@@ -579,6 +517,7 @@ line-height: 1.2;
                 selectedPage = 2;
                 $flipbook.turn("page", 2);
             }, 2500);
+
             let touchStartX = 0;
             let touchEndX = 0;
             
@@ -594,15 +533,12 @@ line-height: 1.2;
             function handleSwipe() {
                 const swipeThreshold = 50;
                 const diff = touchStartX - touchEndX;
-                
                 if (Math.abs(diff) > swipeThreshold) {
-                    if (diff > 0) {
-                        navigate('next');
-                    } else {
-                        navigate('prev');
-                    }
+                    if (diff > 0) navigate('next');
+                    else navigate('prev');
                 }
             }
+
             document.addEventListener('gesturestart', function(e) {
                 e.preventDefault();
             });
