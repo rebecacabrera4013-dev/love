@@ -14,33 +14,34 @@
             padding: 0;
             box-sizing: border-box;
         }
+        
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+        }
+        
         body {
             background: #1a000f;
             background-image: 
                 radial-gradient(circle at 15% 15%, #3a090e 0%, transparent 65%),
                 radial-gradient(circle at 85% 75%, #673147 0%, transparent 65%),
                 radial-gradient(circle at 50% 50%, #4a1c26 0%, transparent 75%);
-            background-attachment: fixed;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
             min-height: 100vh;
-            min-height: -webkit-fill-available;
             font-family: 'Segoe UI', sans-serif;
             color: #e8c3c8;
-            padding: 15px;
-            overflow-x: hidden;
+            padding: 20px 15px;
             position: relative;
         }
         
-        html {
-            height: -webkit-fill-available;
-        }
         h1.glow-title {
             font-family: 'Great Vibes', cursive;
-            font-size: clamp(3rem, 12vw, 6.2rem);
-            margin: clamp(10px, 3vh, 25px) 0 clamp(15px, 4vh, 35px);
+            font-size: clamp(2.8rem, 8vw, 5rem);
+            margin: 10px 0 25px;
             background: linear-gradient(90deg, #dac1c4, #b13a58, #d84f5f, #7e172b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -49,57 +50,40 @@
             text-align: center;
             line-height: 1.1;
             letter-spacing: 1px;
+            flex-shrink: 0;
             width: 100%;
-            max-width: 1000px;
-            padding-top: 15px;
-            line-height: 1.2;
+            padding: 0 10px;
         }
         
         @keyframes pulseConchewino {
             from { text-shadow: 0 0 25px #722f37, 0 0 55px #4a1c26; }
             to   { text-shadow: 0 0 70px #9c2f4a, 0 0 130px #30050f; }
         }
+        
         #flipbook-container {
-            perspective: 3000px;
-            margin: clamp(10px, 3vh, 25px) 0;
-            width: 100%;
-            max-width: min(95vw, 920px);
-            height: auto;
             display: flex;
             justify-content: center;
             align-items: center;
+            width: 100%;
+            max-width: 1400px;
+            padding: 10px;
+            margin: 10px 0;
+            flex: 1;
+            min-height: 400px;
+        }
+        
+        #flipbook {
+            background: transparent;
+            margin: 0 auto;
             position: relative;
         }
-        #flipbook {
-            width: 100% !important;
-            height: auto !important;
-            background: transparent;
-            aspect-ratio: 920/580;
-            max-width: 920px;
-            max-height: 580px;
-            border-radius: 3px;
-        }
-        @supports not (aspect-ratio: 920/580) {
-            #flipbook {
-                position: relative;
-                padding-top: 63.0435%;
-            }
-            #flipbook > .page {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-            }
-        }
+        
         .page {
             background: linear-gradient(145deg, #2f0d17 0%, #40121f 45%, #541828 100%);
             box-shadow: inset 0 0 90px #000000, 0 0 35px #722f37;
             border: 2px solid rgba(114, 47, 55, 0.4);
             position: relative;
             overflow: hidden;
-            width: 100%;
-            height: 100%;
         }
         
         .media-container {
@@ -117,6 +101,7 @@
             filter: brightness(0.8) contrast(1.15) sepia(0.15);
             display: block;
         }
+        
         .turn-page-active {
             box-shadow: 0 0 110px #722f37, 0 0 200px #4a1c26, inset 0 0 160px rgba(114,47,55,0.65) !important;
             border: 3px solid #722f37;
@@ -124,12 +109,13 @@
             transition: all 1.3s cubic-bezier(0.22, 0.81, 0.01, 0.99);
             z-index: 10 !important;
         }
+        
         .heart-overlay {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: clamp(60px, 15vw, 140px);
+            font-size: clamp(50px, 12vw, 120px);
             opacity: 0;
             color: #722f37;
             pointer-events: none;
@@ -143,15 +129,15 @@
             50%  { transform: translate(-50%, -65%) rotate(12deg) scale(1.2); }
             100% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
         }
+        
         .controls {
-            margin-top: clamp(20px, 6vh, 50px);
+            margin: 25px 0 15px;
             display: flex;
-            gap: clamp(20px, 8vw, 70px);
+            gap: clamp(30px, 8vw, 70px);
             z-index: 30;
-            flex-wrap: wrap;
-            justify-content: center;
+            flex-shrink: 0;
             width: 100%;
-            max-width: 800px;
+            justify-content: center;
             padding: 0 15px;
         }
         
@@ -160,16 +146,16 @@
             background-size: 400%;
             color: #ffebee;
             border: none;
-            padding: clamp(12px, 2.5vw, 18px) clamp(30px, 6vw, 55px);
+            padding: clamp(12px, 3vw, 16px) clamp(30px, 6vw, 50px);
             border-radius: 60px;
-            font-size: clamp(17px, 4vw, 21px);
+            font-size: clamp(18px, 4vw, 22px);
             font-weight: bold;
             cursor: pointer;
             transition: all 0.5s;
             box-shadow: 0 14px 45px rgba(114, 47, 55, 0.75);
             position: relative;
             overflow: hidden;
-            min-width: 130px;
+            min-width: clamp(120px, 25vw, 160px);
             text-align: center;
             font-family: 'Segoe UI', sans-serif;
             letter-spacing: 1px;
@@ -192,38 +178,10 @@
         }
         
         button:hover {
-            transform: translateY(-10px) scale(1.18);
+            transform: translateY(-8px) scale(1.12);
             box-shadow: 0 28px 70px rgba(114, 47, 55, 0.95);
         }
         
-        @media (max-width: 480px) {
-            body { padding: 10px; justify-content: flex-start; padding-top: 20px; }
-            h1.glow-title { font-size: clamp(2.5rem, 10vw, 3.5rem); margin: 5px 0 15px; }
-            #flipbook-container { width: 98vw; margin: 5px 0; }
-            .controls { margin-top: 25px; gap: 25px; }
-            button { min-width: 110px; padding: 10px 25px; font-size: 16px; }
-            .heart-overlay { font-size: 50px; }
-        }
-        
-        @media (max-height: 700px) and (orientation: portrait) {
-            h1.glow-title { font-size: clamp(2.2rem, 8vw, 3rem); margin: 5px 0 10px; }
-            #flipbook { max-height: 50vh; }
-            .controls { margin-top: 20px; gap: 20px; }
-        }
-
-        @media (max-height: 600px) and (orientation: landscape) {
-            body { padding: 10px; justify-content: center; }
-            h1.glow-title { font-size: clamp(1.8rem, 6vw, 2.5rem); margin: 5px 0; }
-            #flipbook { max-height: 60vh; }
-            .controls { margin-top: 15px; gap: 20px; }
-            button { padding: 8px 20px; min-width: 100px; }
-        }
-        
-        @media (hover: none) and (pointer: coarse) {
-            button:hover { transform: none; }
-            button:active { transform: translateY(-5px) scale(1.05); }
-        }
-
         .loading-overlay {
             position: fixed;
             top: 0;
@@ -251,18 +209,65 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
-        .error-message {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            padding: 30px;
-            text-align: center;
-            color: #722f37;
-            font-size: 18px;
-            font-weight: bold;
+        
+        /* ===== MEDIA QUERIES ===== */
+        
+        @media (min-width: 1200px) {
+            body { padding: 30px 25px; }
+            #flipbook-container { max-width: 1500px; padding: 20px; height: 70vh; max-height: 750px; }
+            h1.glow-title { font-size: 5.5rem; margin: 15px 0 35px; }
+            .controls { gap: 80px; margin: 30px 0 20px; }
+            button { padding: 18px 55px; font-size: 24px; min-width: 170px; }
+        }
+        
+        @media (min-width: 992px) and (max-width: 1199px) {
+            #flipbook-container { height: 65vh; max-height: 650px; }
+            h1.glow-title { font-size: 4.5rem; margin: 12px 0 28px; }
+            .controls { gap: 60px; margin: 28px 0 18px; }
+        }
+        
+        @media (min-width: 768px) and (max-width: 991px) {
+            body { padding: 25px 20px; }
+            #flipbook-container { height: 60vh; max-height: 550px; }
+            h1.glow-title { font-size: 4rem; margin: 10px 0 22px; }
+            .controls { gap: 50px; margin: 22px 0 15px; }
+            button { padding: 15px 40px; font-size: 20px; min-width: 140px; }
+        }
+        
+        @media (min-width: 576px) and (max-width: 767px) {
+            body { padding: 20px 15px; justify-content: center; }
+            #flipbook-container { height: 55vh; max-height: 450px; }
+            h1.glow-title { font-size: 3.5rem; margin: 8px 0 18px; }
+            .controls { gap: 40px; margin: 18px 0 12px; }
+            button { padding: 13px 35px; font-size: 19px; min-width: 130px; }
+        }
+        
+        @media (max-width: 575px) {
+            body { padding: 15px 10px; justify-content: center; }
+            #flipbook-container { height: 50vh; max-height: 400px; min-height: 350px; }
+            h1.glow-title { font-size: 2.8rem; margin: 5px 0 15px; }
+            .controls { gap: 35px; margin: 15px 0 10px; }
+            button { padding: 11px 30px; font-size: 18px; min-width: 120px; }
+        }
+        
+        @media (max-width: 375px) {
+            h1.glow-title { font-size: 2.4rem; }
+            #flipbook-container { height: 45vh; max-height: 350px; min-height: 300px; }
+            .controls { gap: 30px; }
+            button { padding: 10px 25px; font-size: 16px; min-width: 110px; }
+        }
+        
+        @media (max-height: 600px) and (orientation: landscape) {
+            body { padding: 10px 8px; justify-content: center; }
+            h1.glow-title { font-size: 2.2rem; margin: 3px 0 10px; }
+            #flipbook-container { height: 70vh; max-height: 380px; min-height: 250px; }
+            .controls { margin: 10px 0 5px; gap: 25px; }
+            button { padding: 8px 20px; min-width: 100px; font-size: 16px; }
+        }
+        
+        @media (hover: none) and (pointer: coarse) {
+            button:hover { transform: none; }
+            button:active { transform: translateY(-5px) scale(1.05); }
         }
         
         .page, .media-container, img, video {
@@ -278,7 +283,6 @@
     </style>
 </head>
 <body>
- 
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-spinner"></div>
     </div>
@@ -298,7 +302,6 @@
 
     <script>
         $(document).ready(function() {
-
             setTimeout(() => {
                 $('#loadingOverlay').fadeOut(500);
             }, 1000);
@@ -306,14 +309,10 @@
             const $flipbook = $("#flipbook");
             const $audio = $("#pageSound")[0];
             
-            const totalPages = 22;  
+            const totalPages = 22;
             let selectedPage = 1;
-            let isResizing = false;
-            let originalWidth = 920;
-            let originalHeight = 580;
-            let aspectRatio = originalHeight / originalWidth;
-
-            // Arrays actualizados con mayúsculas también
+            let flipbookInitialized = false;
+            
             const videoExtensions = ['.mp4', '.MP4', '.webm', '.WEBM', '.mov', '.MOV'];
             const imageExtensions = ['.png', '.PNG', '.jpg', '.JPG', '.jpeg', '.JPEG', '.webp', '.WEBP', '.gif', '.GIF'];
 
@@ -345,20 +344,15 @@
 
             function tryLoadMedia($media, baseName, extensions, isVideo) {
                 let attempts = 0;
-                const maxAttempts = extensions.length * 2; // minúscula + mayúscula
+                const maxAttempts = extensions.length;
 
                 function tryNext() {
                     if (attempts >= maxAttempts) {
-                        $media.html(`<div class="error-message">
-                            <div style="font-size: 40px; margin-bottom: 10px;">😿</div>
-                            <div>Página ${baseName} no encontrada</div>
-                        </div>`);
+                        $media.html('<div style="height:100%;display:flex;align-items:center;justify-content:center;color:#722f37;font-size:1.3em;">No se encontró el archivo</div>');
                         return;
                     }
 
-                    const extIndex = Math.floor(attempts / 2);
-                    const isUpper = attempts % 2 === 1;
-                    const ext = isUpper ? extensions[extIndex].toUpperCase() : extensions[extIndex];
+                    const ext = extensions[attempts];
                     const url = `fotos/${baseName}${ext}`;
 
                     if (isVideo) {
@@ -378,7 +372,7 @@
                             tryNext();
                         });
 
-                        $media.append($video); // Intentamos cargar
+                        $media.append($video);
                     } else {
                         const $img = $('<img>', {
                             src: url,
@@ -405,10 +399,8 @@
                 const $media = $('<div class="media-container"></div>');
                 const $heart = $('<div class="heart-overlay">♥</div>');
 
-                // Primero intentamos como video
                 tryLoadMedia($media, i, videoExtensions, true);
 
-                // Si después de un tiempo no cargó video, probamos imagen
                 setTimeout(() => {
                     if ($media.find('video').length === 0 || $media.find('video')[0].error) {
                         $media.empty();
@@ -424,64 +416,71 @@
                 createPage(i);
             }
 
-            $flipbook.turn({
-                width: originalWidth,
-                height: originalHeight,
-                autoCenter: true,
-                duration: 1800,
-                gradients: true,
-                acceleration: true,
-                display: 'double',
-                turnCorners: 'bl,br,tl,tr',
-                when: {
-                    turning: function(e, page) {
-                        $("video").each(function() { 
-                            if (!$(this).closest('.page').hasClass('turn-page-active')) {
-                                this.pause(); 
-                            }
-                        });
-                    },
-                    turned: function(e, page) {
-                        const view = $flipbook.turn("view");
-                        selectedPage = view[0] || view[1] || 1;
-                        updateHighlightAndSound(selectedPage);
-                    }
+            function initFlipbook() {
+                const container = $('#flipbook-container');
+                const containerWidth = container.width();
+                const containerHeight = container.height();
+                
+                let flipbookWidth, flipbookHeight;
+                
+                if (window.innerWidth >= 1200) {
+                    flipbookWidth = Math.min(containerWidth * 0.85, 1000);
+                    flipbookHeight = flipbookWidth * 0.65;
+                } else if (window.innerWidth >= 992) {
+                    flipbookWidth = Math.min(containerWidth * 0.88, 900);
+                    flipbookHeight = flipbookWidth * 0.666;
+                } else if (window.innerWidth >= 768) {
+                    flipbookWidth = Math.min(containerWidth * 0.92, 750);
+                    flipbookHeight = flipbookWidth * 0.666;
+                } else if (window.innerWidth >= 576) {
+                    flipbookWidth = Math.min(containerWidth * 0.95, 550);
+                    flipbookHeight = flipbookWidth * 0.7;
+                } else {
+                    flipbookWidth = containerWidth * 0.97;
+                    flipbookHeight = flipbookWidth * 0.75;
                 }
-            });
-
-            function resizeFlipbook() {
-                if (isResizing) return;
-                isResizing = true;
+                
+                flipbookWidth = Math.min(flipbookWidth, containerWidth - 20);
+                flipbookHeight = Math.min(flipbookHeight, containerHeight - 20);
+                
+                flipbookWidth = Math.max(flipbookWidth, 280);
+                flipbookHeight = Math.max(flipbookHeight, 200);
+                
+                if (flipbookInitialized) {
+                    $flipbook.turn("size", flipbookWidth, flipbookHeight);
+                    $flipbook.turn("resize");
+                } else {
+                    $flipbook.turn({
+                        width: flipbookWidth,
+                        height: flipbookHeight,
+                        autoCenter: true,
+                        duration: 1500,
+                        gradients: true,
+                        acceleration: true,
+                        display: 'double',
+                        elevation: 50,
+                        turnCorners: 'bl,br,tl,tr',
+                        when: {
+                            turning: function(e, page) {
+                                $("video").each(function() { 
+                                    if (!$(this).closest('.page').hasClass('turn-page-active')) {
+                                        this.pause(); 
+                                    }
+                                });
+                            },
+                            turned: function(e, page) {
+                                const view = $flipbook.turn("view");
+                                selectedPage = view[0] || view[1] || 1;
+                                updateHighlightAndSound(selectedPage);
+                            }
+                        }
+                    });
+                    flipbookInitialized = true;
+                }
                 
                 setTimeout(() => {
-                    const container = $('#flipbook-container');
-                    const containerWidth = container.width();
-                    const windowHeight = window.innerHeight;
-                    
-                    let newWidth = Math.min(containerWidth, originalWidth);
-                    let newHeight = newWidth * aspectRatio;
-                    
-                    const maxHeight = windowHeight * 0.75;
-                    if (newHeight > maxHeight) {
-                        newHeight = maxHeight;
-                        newWidth = newHeight / aspectRatio;
-                    }
-                    
-                    newWidth = Math.max(newWidth, 300);
-                    newHeight = Math.max(newHeight, 300 * aspectRatio);
-                    
-                    if ($flipbook.turn("display") === "double") {
-                        $flipbook.turn("size", newWidth, newHeight);
-                    }
-                    
-                    const titleMargin = Math.min(30, newHeight * 0.05);
-                    $('.glow-title').css('margin-bottom', titleMargin + 'px');
-
-                    const controlsMargin = Math.min(50, newHeight * 0.08);
-                    $('.controls').css('margin-top', controlsMargin + 'px');
-                    
-                    isResizing = false;
-                }, 100);
+                    updateHighlightAndSound(1);
+                }, 500);
             }
 
             function navigate(direction) {
@@ -510,14 +509,6 @@
                 if (e.key === 'ArrowRight' || e.keyCode === 39) navigate('next');
             });
 
-            $(window).on('load resize orientationchange', resizeFlipbook);
-            updateHighlightAndSound(1);
-            setTimeout(resizeFlipbook, 300);
-            setTimeout(() => {
-                selectedPage = 2;
-                $flipbook.turn("page", 2);
-            }, 2500);
-
             let touchStartX = 0;
             let touchEndX = 0;
             
@@ -538,6 +529,28 @@
                     else navigate('prev');
                 }
             }
+
+            $(window).on('load', function() {
+                setTimeout(() => {
+                    initFlipbook();
+                    setTimeout(() => {
+                        if (flipbookInitialized) {
+                            selectedPage = 2;
+                            $flipbook.turn("page", 2);
+                        }
+                    }, 2500);
+                }, 300);
+            });
+            
+            let resizeTimer;
+            $(window).on('resize orientationchange', function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => {
+                    if (flipbookInitialized) {
+                        initFlipbook();
+                    }
+                }, 200);
+            });
 
             document.addEventListener('gesturestart', function(e) {
                 e.preventDefault();
