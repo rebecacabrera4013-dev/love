@@ -198,7 +198,6 @@ line-height: 1.2;
             box-shadow: 0 28px 70px rgba(114, 47, 55, 0.95);
         }
         
-        /* AJUSTES PARA PANTALLAS MUY PEQUEÑAS (320px) */
         @media (max-width: 480px) {
             body {
                 padding: 10px;
@@ -232,7 +231,6 @@ line-height: 1.2;
             }
         }
         
-        /* ORIENTACIÓN VERTICAL (MÓVILES) */
         @media (max-height: 700px) and (orientation: portrait) {
             h1.glow-title {
                 font-size: clamp(2.2rem, 8vw, 3rem);
@@ -248,8 +246,7 @@ line-height: 1.2;
                 gap: 20px;
             }
         }
-        
-        /* ORIENTACIÓN HORIZONTAL (LANDSCAPE) */
+
         @media (max-height: 600px) and (orientation: landscape) {
             body {
                 padding: 10px;
@@ -276,7 +273,7 @@ line-height: 1.2;
             }
         }
         
-        /* DISPOSITIVOS TÁCTILES */
+    
         @media (hover: none) and (pointer: coarse) {
             button:hover {
                 transform: none;
@@ -286,8 +283,7 @@ line-height: 1.2;
                 transform: translateY(-5px) scale(1.05);
             }
         }
-        
-        /* ANIMACIÓN DE CARGA */
+
         .loading-overlay {
             position: fixed;
             top: 0;
@@ -316,7 +312,7 @@ line-height: 1.2;
             100% { transform: rotate(360deg); }
         }
         
-        /* MENSAJE DE ERROR PARA MEDIA NO ENCONTRADA */
+
         .error-message {
             display: flex;
             flex-direction: column;
@@ -330,7 +326,7 @@ line-height: 1.2;
             font-weight: bold;
         }
         
-        /* PREVENIR SELECTION */
+    
         .page, .media-container, img, video {
             -webkit-user-select: none;
             -moz-user-select: none;
@@ -338,7 +334,7 @@ line-height: 1.2;
             user-select: none;
         }
         
-        /* SCROLLBAR PERSONALIZADA */
+    
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -354,7 +350,7 @@ line-height: 1.2;
     </style>
 </head>
 <body>
-    <!-- Overlay de carga -->
+ 
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-spinner"></div>
     </div>
@@ -390,7 +386,7 @@ line-height: 1.2;
             let aspectRatio = originalHeight / originalWidth;
 
             const videoExtensions = ['.mp4', '.webm', '.mov'];
-            const imageExtensions = ['.png', '.jpg', '.jpeg', '.webp'];
+            const imageExtensions = ['.png', '.jpg', '.jpeg', '.webp', '.gif'];
 
             function updateHighlightAndSound(pageNum) {
                 $(".turn-page-active").removeClass("turn-page-active");
